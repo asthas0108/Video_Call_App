@@ -151,6 +151,30 @@ export const VideoMeet = () => {
 
           connections[socketListId] = new RTCPeerConnection(peerConfigConnections);
 
+          connections[socketListId].onicecandidate = (event) => {
+            if(event.candidate !== null){
+              socketRef.current.emit("signal", socketListId, JSON.stringify({"ice":event.candidate}));
+            }
+          }
+
+          connections[socketListId].onaddstream = (event) => {
+
+            let videoExists = videoRef.current.find(video => video.socketId === socketListId);
+
+            if(videoExists) {
+              setVideo(vidoes => {
+                const updateVideos = videos.map(video =>
+                  video.socketId === socketListId ? {...video, stream: event.stream}:video
+                );
+              })
+            }else{
+
+              
+
+            }
+
+          }
+
         })
       })
     })

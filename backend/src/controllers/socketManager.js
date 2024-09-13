@@ -89,7 +89,7 @@ const connectToSocket = (server) => {
 
                         connections[key].splice(index, 1);
 
-                        if(connecions[key].length === 0){
+                        if(connections[key].length === 0){
                             delete connections[key];
                         }
                     }
